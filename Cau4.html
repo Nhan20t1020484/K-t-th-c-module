@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Khách Hàng</title>
+</head>
+<body>
+    <h3>Thêm khách hàng</h3>
+    <input type="text" id="id" placeholder="Nhập Mã Khách Hàng ">
+    <input type="text" id="name" placeholder="Nhập Tên Khách Hàng">
+    <input type="text" id="phone" placeholder="Số Điện Thoại">    
+    <input type="text" id="address" placeholder="Nhập Địa chỉ">
+    <input type="text" id="email" placeholder="Nhập Email">
+    <div id="btn">
+        <button onclick="add()">Thêm mới</button> 
+    </div>
+
+    <h3>Danh Sách Khách Hàng</h3>
+    <table border="1">
+        <tr>
+            <th>Mã Khách Hàng</th>
+            <th>Tên Khách Hàng</th>
+            <th>Số Điện Thoại</th>
+            <th>Địa chỉ</th>
+            <th>Email</th>
+        </tr>
+        <tbody id="list-khachhang">
+            
+        </tbody>
+    </table>
+    <script>
+        class List {
+    name
+    listkhachhang
+
+    constructor(nameInput) {
+        this.name = nameInput;
+        this.getStorage();
+    }
+
+    add(newKhachHang) {
+        this.listKhachHang.push(newKhachHang);
+        this.saveStorage();
+    }
+
+    getList() {
+        return this.listKhachHang;
+    }
+    saveStorage() {
+        localStorage.setItem("listkhachhang", JSON.stringify(this.listKhachHang));
+    }
+
+    getStorage() {
+        let list = JSON.parse(localStorage.getItem("listkhachhang"));
+        if (list == null) {
+            this.listKhachHang = [];
+        } else {
+            this.listKhachHang = list;
+        }
+    }
+
+
+}
+
+    </script>
+    <script>
+        class KhachHang {
+    id
+    name
+    phone
+    address
+    email
+    constructor(idInput, nameInput, phoneInput, addressInput , emailInput) {
+        this.id = idInput;
+        this.name = nameInput;
+        this.phone = phoneInput;
+        this.address = addressInput;
+        this.email = emailInput;
+    }
+}
+    </script>
+    <script>
+        let listKH = new List ("Danh Sách Khách Hàng");
+    function add() {
+    let id = document.getElementById("id").value;
+    let name = document.getElementById("name").value;
+    let phone = document.getElementById("phone").value;
+    let address = document.getElementById("address").value;
+    let email = document.getElementById("email").value;
+    let newKhachHang = new KhachHang(id, name, phone, address ,email);
+    listKH.add(newKhachHang);
+    getAll();
+    document.getElementById("id").value = "";
+    document.getElementById("name").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("address").value = "";
+    document.getElementById("email").value = "";
+}
+
+function getAll() {
+    let list = listKH.getList();
+    let html = ``;
+    for (let i = 0; i < list.length; i++) {
+        html = html + `
+         <tr>
+            <td>${list[i].id}</td>
+            <td>${list[i].name}</td>
+            <td>${list[i].phone}</td>
+            <td>${list[i].address}</td>
+            <td>${list[i].email}</td>
+        </tr>
+      `
+    }
+    document.getElementById("list-khachhang").innerHTML = html;
+}
+
+getAll();
+
+    </script>
+   
+    
+</body>
+</html>
